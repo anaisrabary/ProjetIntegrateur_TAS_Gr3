@@ -1,5 +1,15 @@
 # Projet Intégrateur TAS
 
+## SSH's GPU access:
+
+```bash
+ssh <login>@insa-<machine-id>
+```
+
+**machine-id**: 10585 
+
+Type password of your INSA login
+
 ## Bibliographic
 * [**DeepLearning_Preview.pdf**](biblio/DeepLearning_Preview.pdf): Lecture en diagonal pour connaître les problèmes existants en imagerie et les solution/architecture/challenge/open data.
 * [**Segmantic_segmentation_review.pdf**](biblio/Semantic_segmentation_review.pdf): L’ensemble d’état de l’art dans semantic segmentation problème. Il est court (2 pages environ à lire), donc l’information est très concis à comprendre, accepter et continuer à lire, on verra en détail.
