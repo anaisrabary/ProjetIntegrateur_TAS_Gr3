@@ -2,13 +2,22 @@
 
 ## SSH's GPU access:
 
+1. Access in ssh
 ```bash
 ssh <login>@insa-<machine-id>
 ```
-
-**machine-id**: 10585 
+**machine-id**: 10585 10583
 
 Type password of your INSA login
+
+1. **conda** is not available in your terminal, you have to reload the bash:
+```bash
+source ~/.bashrc
+```
+Check conda:
+```bash
+conda --version
+```
 
 ## Bibliographic
 * [**DeepLearning_Preview.pdf**](biblio/DeepLearning_Preview.pdf): Lecture en diagonal pour connaître les problèmes existants en imagerie et les solution/architecture/challenge/open data.
