@@ -10,16 +10,21 @@ minioClient = Minio('localhost:9001',
 
 try:
 	#create 'images' bucket
-       minioClient.make_bucket("images", location="eu-west-1")
+	minioClient.make_bucket("images", location="eu-west-1")
 except BucketAlreadyOwnedByYou as err:
-       pass
-except BucketAlreadyExists as err:
-       pass
+	pass
+except 	BucketAlreadyExists as err:
+	pass
 except ResponseError as err:
-       raise
+	raise
 else:
-        #put
-        try:
-               minioClient.fput_object('images', 'pink.jpeg', './images/pink.jpeg')
-        except ResponseError as err:
-               print(err)
+	try:
+		#put image with metadata
+		metadata = {'labels':[0,0,0,1,0]}
+		minioClient.fput_object('images', 'pink.jpeg', './images/pink.jpeg', metadata=metadata)
+	except ResponseError as err:
+		print(err)
+
+#visualize image information
+info = minioClient.stat_object('images','pink.jpeg')
+print(info)
