@@ -8,7 +8,7 @@ from minio.error import BucketAlreadyExists
 
 #check args
 if len(sys.argv) != 4:
-	print "Usage: python save.py load_file_path save_directory nb_images"
+	print "Usage: python save.py load_file_path save_directory minio_port"
 	sys.exit(1)
 
 #get args
