@@ -4,3 +4,4 @@ INSA_data_images.zip
 
 # ignore all the files .npy (data matrix) in project
 **/*.npy
+*.h5
