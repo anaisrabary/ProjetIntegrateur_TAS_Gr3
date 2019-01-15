@@ -1,6 +1,7 @@
 .ipynb_checkpoints
 INSA_data_images/
 INSA_data_images.zip
+ImageTIF/
 
 # ignore all the files .npy (data matrix) in project
 **/*.npy
