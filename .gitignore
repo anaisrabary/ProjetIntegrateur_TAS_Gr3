@@ -5,3 +5,4 @@ ImageTIF/
 
 # ignore all the files .npy (data matrix) in project
 **/*.npy
+*.h5
