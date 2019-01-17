@@ -57,7 +57,7 @@ services:
   links:
    - minio1
  uploader:
-  image: cponidjem/ubuntu_deploy:latest
+  image: cponidjem/alpine_deploy:latest
   command: python /home/upload_script.py
   links:
    - minio1
