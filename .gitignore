@@ -2,6 +2,7 @@
 INSA_data_images/
 INSA_data_images.zip
 ImageTIF/
+Deployment/INSA_data_images/
 
 # ignore all the files .npy (data matrix) in project
 **/*.npy
