@@ -30,6 +30,17 @@ curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' 
 in a python script  
 es.search(index='images',body='{"query": {"bool": {"must_not": [{ "exists": { "field": "labels" }}]}}}')
 
+## Useful docker commands
+display images
+```bash
+docker images
+```
+
+remove an image
+```bash
+docker rmi <image-id>
+```
+
 ## Useful docker-compose commands
 stop services/containers
 ```bash
