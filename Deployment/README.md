@@ -9,8 +9,26 @@ copy INSA_data_images/ into Deployment/
 from inside Deployment/ use the following commands:  
 ```bash
 docker-compose pull
-docker-compose up
+docker-compose up --build
 ```
+
+## Get unlabelled images
+with curl
+```bash
+curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": { 
+    "bool": { 
+      "must_not": [
+        {"exists":{"field":"labels"}}
+      ]
+    }
+  }
+}
+'
+```
+in a python script  
+es.search(index='images',body='{"query": {"bool": {"must_not": [{ "exists": { "field": "labels" }}]}}}')
 
 ## Useful docker-compose commands
 stop services/containers
@@ -21,10 +39,6 @@ docker-compose stop
 start existing services/containers
 ```bash
 docker-compose start
-```
-or
-```bash
-docker-compose up
 ```
 
 rebuild images while starting services/containers
