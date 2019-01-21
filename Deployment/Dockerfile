@@ -1,3 +1,3 @@
-FROM custom_ubuntu:latest
+FROM cponidjem/alpine_deploy:latest
 WORKDIR /home
-ADD /upload_script.py .
+ADD upload_script.py .

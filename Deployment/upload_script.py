@@ -9,7 +9,8 @@ import time
 
 bucketName = 'images'
 indexName = 'images'
-nbImages = 10
+trainSetIndices = range(0,80)
+testSetIndices = range(80,100)
 
 minioClient = Minio('minio1:9000', access_key='minio', secret_key='minio123', secure=False)
 es = Elasticsearch([{'host':'elasticsearch','port':9200}])
@@ -37,11 +38,17 @@ rgb = np.load('./INSA_data_images/test_RGB_0_10_25.npy')
 labels = np.load('./INSA_data_images/test_labels_0_10_25.npy')
 
 try:
-	for i in range(0,nbImages):
+	for i in trainSetIndices:
 		temporary = tempfile.NamedTemporaryFile()
 		np.save(temporary, rgb[i])
 		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)
 		doc = {'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 'labels': labels[i].tolist()}
+		es.index(index=indexName, doc_type='npy', id=i, body=doc)
+	for i in testSetIndices:
+		temporary = tempfile.NamedTemporaryFile()
+		np.save(temporary, rgb[i])
+		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)
+		doc = {'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 'labels': []}
 		es.index(index=indexName, doc_type='npy', id=i, body=doc)
 except ResponseError as err:
 	print(err)
