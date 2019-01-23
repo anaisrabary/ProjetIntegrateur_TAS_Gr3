@@ -72,7 +72,16 @@ es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
 minioClient.fput_object(<bucketname>, <objectname>, <file>)
 ```
 
-## Get unlabelled images (initial scenario)
+## Elasticsearch request examples
+
+### Get image links with label 'forest'
+with curl
+```bash
+curl -X GET "localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50"
+```
+or copy/paste in your navigator as it's a simple search example with no body.
+
+### Get unlabelled images (initial scenario)
 with curl
 ```bash
 curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' -d'

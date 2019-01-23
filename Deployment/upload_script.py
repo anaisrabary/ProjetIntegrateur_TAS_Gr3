@@ -7,6 +7,18 @@ import numpy as np
 import tempfile
 import time
 
+def getLabel(labelsArray,i):
+	if labelsArray[i,0]==1:
+		return 'urban_area'
+	if labelsArray[i,1]==1:
+		return 'agricultural_territory'
+	if labelsArray[i,2]==1:
+		return 'forest'
+	if labelsArray[i,3]==1:
+		return 'wetlands'
+	if labelsArray[i,4]==1:
+		return 'surface_with_water'
+
 bucketName = 'train'
 bucketName2 = 'test'
 indexName = 'images'
@@ -43,8 +55,13 @@ try:
 	for i in range(0,nbImages):
 		temporary = tempfile.NamedTemporaryFile()
 		np.save(temporary, rgb[i])
-		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)
-		doc = {'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 'labels': labels[i].tolist()}
-		es.index(index=indexName, doc_type='npy', id=i, body=doc)
+		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)			
+		doc = {
+			'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 
+			'label': getLabel(labels,i),
+			'labels': labels[i].tolist() 
+			
+		}
+		es.index(index=indexName, doc_type='npy', id=i, body=doc,request_timeout=60)
 except ResponseError as err:
 	print(err)
