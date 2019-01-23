@@ -62,18 +62,33 @@ docker-compose up --build
 docker-compose down --volumes
 ```
 
-## MinioClient for python
+## Minio client for python
 ```bash
 pip install minio
 ```
 ```python
 #Imports  
 from minio import Minio  
-from minio.error import ResponseError  
 
 #in general
-#minioClient = Minio('<host>:<port>', access_key=<accesskey>, secret_key=<secretkey>, secure=<boolean>)
+minioClient = Minio('<host>:<port>', access_key=<accesskey>, secret_key=<secretkey>, secure=<boolean>)
 minioClient.fput_object(<bucketname>, <objectname>, <file>)
 ```
+
+## Elasticsearch client for python
+```bash
+pip install minio
+```
+```python
+#Imports  
+from elasticsearch import Elasticsearch  
+
+#in general
+es = Elasticsearch([{'host':<host>,'port':<port>}])
+doc = {'image':'<hostname>:<portname>/minio/'+<bucketName>+'/'+<objectname>, 'labels': <npyarray>[<i>].tolist()}
+es.index(index=<indexName>, doc_type=<type>, id=<i>, body=doc)
+minioClient.fput_object(<bucketname>, <objectname>, <file>)
+```
+
 
 
