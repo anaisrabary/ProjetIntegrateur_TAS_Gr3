@@ -7,10 +7,10 @@ import numpy as np
 import tempfile
 import time
 
-bucketName = 'images'
+bucketName = 'train'
+bucketName2 = 'test'
 indexName = 'images'
-trainSetIndices = range(0,80)
-testSetIndices = range(80,100)
+nbImages = 10
 
 minioClient = Minio('minio1:9000', access_key='minio', secret_key='minio123', secure=False)
 es = Elasticsearch([{'host':'elasticsearch','port':9200}])
@@ -20,6 +20,8 @@ while not connectionSucceed:
 	try:
 		if not minioClient.bucket_exists(bucketName):
 			minioClient.make_bucket(bucketName)
+		if not minioClient.bucket_exists(bucketName2):
+			minioClient.make_bucket(bucketName2)
 		connectionSucceed = True
 	except MaxRetryError as err:
 		time.sleep(1)
@@ -38,17 +40,11 @@ rgb = np.load('./INSA_data_images/test_RGB_0_10_25.npy')
 labels = np.load('./INSA_data_images/test_labels_0_10_25.npy')
 
 try:
-	for i in trainSetIndices:
+	for i in range(0,nbImages):
 		temporary = tempfile.NamedTemporaryFile()
 		np.save(temporary, rgb[i])
 		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)
 		doc = {'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 'labels': labels[i].tolist()}
-		es.index(index=indexName, doc_type='npy', id=i, body=doc)
-	for i in testSetIndices:
-		temporary = tempfile.NamedTemporaryFile()
-		np.save(temporary, rgb[i])
-		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)
-		doc = {'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 'labels': []}
 		es.index(index=indexName, doc_type='npy', id=i, body=doc)
 except ResponseError as err:
 	print(err)
