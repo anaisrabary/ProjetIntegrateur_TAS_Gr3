@@ -77,7 +77,7 @@ minioClient.fput_object(<bucketname>, <objectname>, <file>)
 
 ## Elasticsearch client for python
 ```bash
-pip install minio
+pip install elasticsearch
 ```
 ```python
 #Imports  
