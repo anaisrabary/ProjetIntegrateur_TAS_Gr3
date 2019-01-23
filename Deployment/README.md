@@ -67,8 +67,8 @@ from elasticsearch import Elasticsearch
 
 #in general
 es = Elasticsearch([{'host':<host>,'port':<port>}])
-doc = {'image':'<hostname>:<portname>/minio/'+<bucketName>+'/'+<objectname>, 'labels': <npyarray>[<i>].tolist()}
-es.index(index=<indexName>, doc_type=<type>, id=<i>, body=doc)
+doc = {'image':'<hostname>:<portname>/minio/'+<bucketName>+'/'+<objectname>, 'labels': <label>.tolist()}
+es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
 minioClient.fput_object(<bucketname>, <objectname>, <file>)
 ```
 
