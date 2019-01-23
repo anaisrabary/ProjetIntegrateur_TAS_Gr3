@@ -61,3 +61,19 @@ docker-compose up --build
 ```bash
 docker-compose down --volumes
 ```
+
+## MinioClient for python
+```bash
+pip install minio
+```
+```python
+#Imports  
+from minio import Minio  
+from minio.error import ResponseError  
+
+#in general
+#minioClient = Minio('<host>:<port>', access_key=<accesskey>, secret_key=<secretkey>, secure=<boolean>)
+minioClient.fput_object(<bucketname>, <objectname>, <file>)
+```
+
+
