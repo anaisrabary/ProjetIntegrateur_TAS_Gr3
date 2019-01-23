@@ -53,15 +53,12 @@ mod.compile(optimizer=opt, loss='categorical_crossentropy', metrics = ['accuracy
 indices = np.random.randint(1000, size=1000)
 
 # DONNEES NON TRAITEES
-data = trainRGB[indices]
-target = trainLabel[indices]
+data = testRGB[indices]
+target = testLabel[indices]
 xtrain = data
 ytrain = target
 xtest = testRGB[0:100]
 ytest = testLabel[0:100]
-
-import os
-os.environ['PYSPARK_PYTHON'] = 'Users\anais\AppData\Local\Programs\Python\Python36'
 
 from pyspark import SparkContext, SparkConf
 
@@ -79,10 +76,3 @@ spark_model.fit(rdd, batch_size=32, epochs=10, verbose=0,validation_split=0.1)
 
 score =spark_model.master_network.evaluate(xtest, ytest, verbose=1)
 print('accuracy ', score)
-
-
-
-
-
-
-
