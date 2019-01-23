@@ -58,7 +58,7 @@ services:
    - minio1
  uploader:
   build: .
-  command: python /home/upload_script.py
+  command: python /home/upload_script.py && rm -r /home/INSA_data_images
   links:
    - minio1
    - elasticsearch

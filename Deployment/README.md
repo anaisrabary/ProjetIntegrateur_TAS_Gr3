@@ -12,24 +12,6 @@ docker-compose pull
 docker-compose up --build
 ```
 
-## Get unlabelled images
-with curl
-```bash
-curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' -d'
-{
-  "query": { 
-    "bool": { 
-      "must_not": [
-        {"exists":{"field":"labels"}}
-      ]
-    }
-  }
-}
-'
-```
-in a python script  
-es.search(index='images',body='{"query": {"bool": {"must_not": [{ "exists": { "field": "labels" }}]}}}')
-
 ## Useful docker commands
 display images
 ```bash
@@ -61,3 +43,54 @@ docker-compose up --build
 ```bash
 docker-compose down --volumes
 ```
+
+## Minio client for python
+```bash
+pip install minio
+```
+```python
+#Imports  
+from minio import Minio  
+
+#in general
+minioClient = Minio('<host>:<port>', access_key=<accesskey>, secret_key=<secretkey>, secure=<boolean>)
+minioClient.fput_object(<bucketname>, <objectname>, <file>)
+```
+
+## Elasticsearch client for python
+```bash
+pip install elasticsearch
+```
+```python
+#Imports  
+from elasticsearch import Elasticsearch  
+
+#in general
+es = Elasticsearch([{'host':<host>,'port':<port>}])
+doc = {'image':'<hostname>:<portname>/minio/'+<bucketName>+'/'+<objectname>, 'labels': <label>.tolist()}
+es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
+minioClient.fput_object(<bucketname>, <objectname>, <file>)
+```
+
+## Get unlabelled images (initial scenario)
+with curl
+```bash
+curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": { 
+    "bool": { 
+      "must_not": [
+        {"exists":{"field":"labels"}}
+      ]
+    }
+  }
+}
+'
+```
+in a python script
+```python
+from elasticsearch import Elasticsearch  
+es = Elasticsearch([{'host':<host>,'port':<port>}])
+es.search(index='images',body='{"query": {"bool": {"must_not": [{ "exists": { "field": "labels" }}]}}}')
+```
+
