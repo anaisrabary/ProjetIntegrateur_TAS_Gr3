@@ -57,7 +57,7 @@ rebuild images while starting services/containers
 docker-compose up --build
 ```
 
-(stop services/containers and) remove services/containers
+(stop services/containers and) remove services/containers and attached volumes
 ```bash
-docker-compose down
+docker-compose down --volumes
 ```
