@@ -1,5 +1,45 @@
 version: '3.6'
 services:
+  minio1:
+    image: minio/minio:RELEASE.2018-12-27T18-33-08Z
+    volumes:
+     - mndata1:/home/sdci/docker/minio/data
+    ports:
+     - "9001:9000"
+    environment:
+     MINIO_ACCESS_KEY: minio
+     MINIO_SECRET_KEY: minio123
+    command: server http://minio1/data http://minio2/data http://minio3/data http://minio4/data 
+  minio2:
+    image: minio/minio:RELEASE.2018-12-27T18-33-08Z
+    volumes:
+     - mndata2:/home/sdci/docker/minio/data
+    ports:
+     - "9002:9000"
+    environment:
+     MINIO_ACCESS_KEY: minio
+     MINIO_SECRET_KEY: minio123
+    command: server http://minio1/data http://minio2/data http://minio3/data http://minio4/data 
+  minio3:
+    image: minio/minio:RELEASE.2018-12-27T18-33-08Z
+    volumes:
+     - mndata3:/home/sdci/docker/minio/data
+    ports:
+     - "9003:9000"
+    environment:
+     MINIO_ACCESS_KEY: minio
+     MINIO_SECRET_KEY: minio123
+    command: server http://minio1/data http://minio2/data http://minio3/data http://minio4/data 
+  minio4:
+    image: minio/minio:RELEASE.2018-12-27T18-33-08Z
+    volumes:
+     - mndata4:/home/sdci/docker/minio/data
+    ports:
+     - "9004:9000"
+    environment:
+     MINIO_ACCESS_KEY: minio
+     MINIO_SECRET_KEY: minio123
+    command: server http://minio1/data http://minio2/data http://minio3/data http://minio4/data 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.0
     container_name: elasticsearch
@@ -16,18 +56,13 @@ services:
     cap_add:
       - ALL
     privileged: true
-    deploy:
-      mode: global
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
     volumes:
-      - esdata1:/usr/share/elasticsearch/data
+      - esdata1:/home/sdci/docker/elasticsearch/data
     ports:
       - 9200:9200
       - 9300:9300
+    links: 
+      - minio1  
   elasticsearch2:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.0
     container_name: elasticsearch2
@@ -45,15 +80,8 @@ services:
     cap_add:
       - ALL
     privileged: true
-    deploy:
-      mode: global
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
     volumes:
-      - esdata2:/usr/share/elasticsearch/data
+      - esdata2:/home/sdci/docker/elasticsearch/data
   elasticsearch3:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.0
     container_name: elasticsearch3
@@ -71,15 +99,8 @@ services:
     cap_add:
       - ALL
     privileged: true
-    deploy:
-      mode: global
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
     volumes:
-      - esdata3:/usr/share/elasticsearch/data
+      - esdata3:/home/sdci/docker/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana-oss:6.5.0
     container_name: kibana
@@ -95,23 +116,19 @@ services:
         hard: -1
     cap_add:
       - ALL
-    deploy:
-      mode: global
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-  nginx:
-    image: nginx:latest
-    ports:
-        - 8080:80
-    volumes:
-        - ${PWD}/nginx-config/:/etc/nginx/conf.d/
-    command: /bin/bash -c "nginx -g 'daemon off;'"
-    ulimits:
-      nproc: 65535
+
 volumes:
   esdata1:
+    driver: local
   esdata2:
+    driver: local
   esdata3:
+    driver: local
+  mndata1: 
+    driver: local
+  mndata2: 
+    driver: local
+  mndata3: 
+    driver: local
+  mndata4: 
+    driver: local
