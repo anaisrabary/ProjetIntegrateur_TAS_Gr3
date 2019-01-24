@@ -51,10 +51,10 @@ Minio is an object-based storage server, best suited for storing unstructured da
 pip install minio
 ```
 ```python
-#Imports  
+#import
 from minio import Minio  
 
-#In general
+#replace <> with appropriate values
 minioClient = Minio('<minioHost>:<minioPort>', access_key=<accessKey>, secret_key=<secretKey>, secure=False)
 minioClient.fput_object(<bucketName>, <objectName>, <file>)
 ```
@@ -70,17 +70,17 @@ Elasticsearch is a scalable search and analytics engine. It can be distributed.
 pip install elasticsearch
 ```
 ```python
-#Imports  
+#import 
 from elasticsearch import Elasticsearch  
 
-#in general
+#replace <> with appropriate values
 es = Elasticsearch([{'host':<esHost>,'port':<esPort>}])
 doc = {'image':'<minioHost>:<minioPort>/minio/'+<bucketName>+'/'+<objectName>, 'labels': <labelsArray>.tolist(), 'label':<labelString>}
 es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
 ```
 
 ### Search examples
-- Get all links with label 'forest'  
+- get all links with label 'forest'  
 navigator: http://localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50  
 curl: 
 ```bash
