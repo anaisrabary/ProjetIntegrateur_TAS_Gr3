@@ -81,9 +81,9 @@ es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
 
 ### Search examples
 - get all links with label 'forest'  
-navigator: http://localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50  
+navigator: http://localhost:9200/train/_search?q=test_label:forest&filter_path=hits.hits._source.url&size=50  
 curl: 
 ```bash
-curl -X GET "localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50"
+curl -X GET "http://localhost:9200/train/_search?q=test_label:forest&filter_path=hits.hits._source.url&size=50"
 ```
 

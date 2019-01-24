@@ -21,7 +21,8 @@ def getLabel(labelsArray,i):
 
 bucketName = 'train'
 bucketName2 = 'test'
-indexName = 'images'
+indexName = 'train'
+indexName2 = 'test'
 nbImages = 10
 
 minioClient = Minio('minio1:9000', access_key='minio', secret_key='minio123', secure=False)
@@ -42,7 +43,28 @@ while not connectionSucceed:
 connectionSucceed = False
 while not connectionSucceed:
 	try:
-		es.indices.create(index=indexName, ignore=400)
+		mappings = { 'mappings': {
+			'_doc' : {
+				'properties':{
+					'url':{'type':'text', 'enabled':False},
+					'test_label':{'type':'text'},
+					'test_array': {'enabled':False},		
+				}
+			}
+		}}
+		es.indices.create(index=indexName, body=mappings, ignore=400)
+		mappings = { 'mappings': {
+			'_doc' : {
+				'properties':{
+					'url':{'type':'text', 'enabled':False},
+					'test_label':{'type':'text'},
+					'predict_label':{'type':'text'},
+					'test_array': {'enabled':False},
+					'predict_array':{'enabled':False}		
+				}
+			}
+		}}
+		es.indices.create(index=indexName2, body=mappings, ignore=400)
 		connectionSucceed = True
 	except ConnectionError as err:
 		time.sleep(1)
@@ -57,9 +79,9 @@ try:
 		np.save(temporary, rgb[i])
 		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)			
 		doc = {
-			'image':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 
-			'label': getLabel(labels,i),
-			'labels': labels[i].tolist() 
+			'url':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 
+			'test_label': getLabel(labels,i),
+			'test_array': labels[i].tolist() 
 			
 		}
 		es.index(index=indexName, doc_type='npy', id=i, body=doc,request_timeout=60)
