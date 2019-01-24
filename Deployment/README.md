@@ -16,7 +16,7 @@ Copy INSA_data_images/ into Deployment/
 From inside Deployment/ use the following commands:  
 ```bash
 docker-compose pull
-docker-compose up --build
+docker-compose up
 ```
 
 ### Stop & start
