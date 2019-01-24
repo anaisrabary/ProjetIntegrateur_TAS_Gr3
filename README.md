@@ -2,7 +2,7 @@
 
 ## Summary
 * [Bibliographic](biblio)
-* [Deployment](deployment)
+* [Deployment](Deployment)
 
 ## Attention:
 * Using library **SystemML** to deploy Keras in Spark has an error on import (test in Python 3 failed)
