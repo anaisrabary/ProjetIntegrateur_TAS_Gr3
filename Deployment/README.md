@@ -75,8 +75,31 @@ from elasticsearch import Elasticsearch
 
 #replace <> with appropriate values
 es = Elasticsearch([{'host':<esHost>,'port':<esPort>}])
-doc = {'image':'<minioHost>:<minioPort>/minio/'+<bucketName>+'/'+<objectName>, 'labels': <labelsArray>.tolist(), 'label':<labelString>}
-es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
+
+def getLabel(labelsArray,i):
+	if labelsArray[i,0]==1:
+		return 'urban_area'
+	if labelsArray[i,1]==1:
+		return 'agricultural_territory'
+	if labelsArray[i,2]==1:
+		return 'forest'
+	if labelsArray[i,3]==1:
+		return 'wetlands'
+	if labelsArray[i,4]==1:
+		return 'surface_with_water'
+    
+ #to define using max value in predictArray
+ getPredictedLabel 
+
+doc = {
+			'url':'localhost:9001/minio/'+<bucketName>+'/'+<objectName>), 
+			'name':<objectName>,
+			'test_label': getLabel(<testArray>,i),
+      'test_label': getPredictedLabel(<predictArray>,i),
+			'test_array': <testArray>[i].tolist() 
+			
+		}
+		es.index(index='test', doc_type='npy', id=i, body=doc,request_timeout=60)
 ```
 
 ### Search examples
