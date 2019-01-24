@@ -86,4 +86,8 @@ curl:
 ```bash
 curl -X GET "http://localhost:9200/train/_search?q=test_label:forest&filter_path=hits.hits._source.url&size=50"
 ```
+python
+```python
+es.search(index='train', q='test_label:forest', filter_path='hits.hits._source.url',size=50)
+````
 
