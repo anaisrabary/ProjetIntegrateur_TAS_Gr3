@@ -47,6 +47,7 @@ while not connectionSucceed:
 			'_doc' : {
 				'properties':{
 					'url':{'type':'text', 'enabled':False},
+					'name':{'type':'text'},
 					'test_label':{'type':'text'},
 					'test_array': {'enabled':False},		
 				}
@@ -57,6 +58,7 @@ while not connectionSucceed:
 			'_doc' : {
 				'properties':{
 					'url':{'type':'text', 'enabled':False},
+					'name':{'type':'text'},
 					'test_label':{'type':'text'},
 					'predict_label':{'type':'text'},
 					'test_array': {'enabled':False},
@@ -80,6 +82,7 @@ try:
 		minioClient.fput_object(bucketName, '{0}.npy'.format(i), temporary.name)			
 		doc = {
 			'url':'localhost:9001/minio/'+bucketName+'/'+'{0}.npy'.format(i), 
+			'name':'{0}.npy'.format(i),
 			'test_label': getLabel(labels,i),
 			'test_array': labels[i].tolist() 
 			
