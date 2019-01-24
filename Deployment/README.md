@@ -1,50 +1,52 @@
-# Deployment
+# Minio-Elasticsearch deployment with example images
 
-## Deployment
+## Getting started
+Following these instructions you should be able to:
+- deploy our infrastructure as docker services/containers
+- stop & start existing services/containers without data loss
+- re-deploy our infrastructure [useful for collaborators]
+
+### Prerequisites
 make sure you have docker and docker-compose installed  
 https://docs.docker.com/install/linux/docker-ce/ubuntu/  
 https://docs.docker.com/compose/install/
 
-copy INSA_data_images/ into Deployment/  
-from inside Deployment/ use the following commands:  
+### Deploy infrastructure for the first time
+Copy INSA_data_images/ into Deployment/  
+From inside Deployment/ use the following commands:  
 ```bash
 docker-compose pull
 docker-compose up --build
 ```
 
-## Useful docker commands
-display images
-```bash
-docker images
-```
-
-remove an image
-```bash
-docker rmi <image-id>
-```
-
-## Useful docker-compose commands
-stop services/containers
+### Stop & start
+Stop services/containers while inside terminal on startup : Ctrl-C  
+Stop services/containers from host, still inside Deployment/ :
 ```bash
 docker-compose stop
 ```
 
-start existing services/containers
+Start existing & stopped services/containers
 ```bash
 docker-compose start
 ```
 
-rebuild images while starting services/containers
-```bash
-docker-compose up --build
-```
-
-(stop services/containers and) remove services/containers and attached volumes
+### Re-deploy infrastructure (overwrite)
+From inside Deployment/ use the following commands:  
 ```bash
 docker-compose down --volumes
+docker-compose up --build
 ```
+The first command stops and deletes associated containers, deletes associated volumes  
+The second command deploys services/containers and forces build even if the image already exists
 
-## Minio client for python
+
+## Minio
+
+### About
+Minio is an object-based storage server, best suited for storing unstructured data. It's light enough to be packaged in the application stack. It can be distributed.
+
+### Using Python client
 ```bash
 pip install minio
 ```
@@ -52,12 +54,18 @@ pip install minio
 #Imports  
 from minio import Minio  
 
-#in general
-minioClient = Minio('<host>:<port>', access_key=<accesskey>, secret_key=<secretkey>, secure=<boolean>)
-minioClient.fput_object(<bucketname>, <objectname>, <file>)
+#In general
+minioClient = Minio('<minioHost>:<minioPort>', access_key=<accessKey>, secret_key=<secretKey>, secure=False)
+minioClient.fput_object(<bucketName>, <objectName>, <file>)
 ```
+The option secure=False tells Minio not to use a secure access (HTTPS protocol/SSL certificates) to the server. I'ts used for testing purpose given our project's context and it should not be used in a production environment.
 
-## Elasticsearch client for python
+## Elasticsearch 
+
+### About
+Elasticsearch is a scalable search and analytics engine. It can be distributed.
+
+### Using Python client
 ```bash
 pip install elasticsearch
 ```
@@ -66,40 +74,16 @@ pip install elasticsearch
 from elasticsearch import Elasticsearch  
 
 #in general
-es = Elasticsearch([{'host':<host>,'port':<port>}])
-doc = {'image':'<hostname>:<portname>/minio/'+<bucketName>+'/'+<objectname>, 'labels': <label>.tolist()}
+es = Elasticsearch([{'host':<esHost>,'port':<esPort>}])
+doc = {'image':'<minioHost>:<minioPort>/minio/'+<bucketName>+'/'+<objectName>, 'labels': <labelsArray>.tolist(), 'label':<labelString>}
 es.index(index=<indexName>, doc_type=<type>, id=<id>, body=doc)
-minioClient.fput_object(<bucketname>, <objectname>, <file>)
 ```
 
-## Elasticsearch request examples
-
-### Get image links with label 'forest'
-with curl
+### Search examples
+- Get all links with label 'forest'  
+navigator: http://localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50  
+curl: 
 ```bash
 curl -X GET "localhost:9200/images/_search?q=label:forest&filter_path=hits.hits._source.image&size=50"
-```
-or copy/paste in your navigator as it's a simple search example with no body.
-
-### Get unlabelled images (initial scenario)
-with curl
-```bash
-curl -X GET "localhost:9200/images/_search" -H 'Content-Type: application/json' -d'
-{
-  "query": { 
-    "bool": { 
-      "must_not": [
-        {"exists":{"field":"labels"}}
-      ]
-    }
-  }
-}
-'
-```
-in a python script
-```python
-from elasticsearch import Elasticsearch  
-es = Elasticsearch([{'host':<host>,'port':<port>}])
-es.search(index='images',body='{"query": {"bool": {"must_not": [{ "exists": { "field": "labels" }}]}}}')
 ```
 
