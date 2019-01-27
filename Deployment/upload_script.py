@@ -72,7 +72,7 @@ while not connectionSucceed:
 		time.sleep(1)
 		print(err)
 
-rgb = np.load('./INSA_data_images/test_RGB_0_10_25.npy')
+rgb = np.load('./INSA_data_images/test_RGB_0_10_25.npy',mmap_mode='r')
 labels = np.load('./INSA_data_images/test_labels_0_10_25.npy')
 
 try:

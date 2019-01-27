@@ -46,19 +46,53 @@ services:
   command: server http://minio1/data http://minio2/data http://minio3/data http://minio4/data 
  elasticsearch:
   image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+  environment:
+   - node.name=es01
+   - cluster.name=docker-cluster
+   - bootstrap.memory_lock=true
+   - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+   - "discovery.zen.minimum_master_nodes=2"
+   - "discovery.zen.ping.unicast.hosts=elasticsearch2,elasticsearch3"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  volumes:
+   - esdata1:/usr/share/elasticsearch/data
   ports:
    - 9200:9200
+ elasticsearch2:
+  image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
   environment:
-   - discovery.type=single-node
-   - xpack.security.enabled=false
-   - xpack.monitoring.enabled=false
-   - xpack.watcher.enabled=false
-   - ES_JAVA_OPTS=-Xms1g -Xmx1g
-  links:
-   - minio1
+   - node.name=es02
+   - cluster.name=docker-cluster
+   - bootstrap.memory_lock=true
+   - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+   - "discovery.zen.minimum_master_nodes=2"
+   - "discovery.zen.ping.unicast.hosts=elasticsearch,elasticsearch3"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  volumes:
+   - esdata2:/usr/share/elasticsearch/data
+ elasticsearch3:
+  image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+  environment:
+   - node.name=es03
+   - node.data=false
+   - cluster.name=docker-cluster
+   - bootstrap.memory_lock=true
+   - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+   - "discovery.zen.minimum_master_nodes=2"
+   - "discovery.zen.ping.unicast.hosts=elasticsearch,elasticsearch2"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
  uploader:
   build: .
-  command: python /home/upload_script.py && rm -r /home/INSA_data_images
+  command: python /home/upload_script.py
   links:
    - minio1
    - elasticsearch
@@ -70,4 +104,6 @@ volumes:
   data2:
   data3:
   data4:
+  esdata1:
+  esdata2:
 
