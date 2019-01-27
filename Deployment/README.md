@@ -93,7 +93,7 @@ docker network inspect <network>
 ```
 - Look for IPv4Address field for elasticsearch2, elasticsearch3 services/containers
 
-You can access now access other nodes on port 9200 using the IP addresses you found
+You can now access other nodes on port 9200 using the IP addresses you found
 
 ### Search examples
 get all links with label 'forest'  
