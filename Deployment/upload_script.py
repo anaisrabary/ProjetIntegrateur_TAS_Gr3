@@ -6,6 +6,7 @@ from elasticsearch.exceptions import ConnectionError
 import numpy as np
 import tempfile
 import time
+import sys
 
 def getLabel(labelsArray,i):
 	if labelsArray[i,0]==1:
@@ -31,7 +32,10 @@ es = Elasticsearch([{'host':'elasticsearch','port':9200}])
 connectionSucceed = False
 while not connectionSucceed:
 	try:
-		if not minioClient.bucket_exists(bucketName):
+		if minioClient.bucket_exists(bucketName):
+			print('Already uploaded')
+			sys.exit()
+		else:
 			minioClient.make_bucket(bucketName)
 		if not minioClient.bucket_exists(bucketName2):
 			minioClient.make_bucket(bucketName2)
