@@ -16,6 +16,7 @@ Copy INSA_data_images/ into Deployment/
 From inside Deployment/ use the following commands:  
 ```bash
 docker-compose pull
+sudo sysctl -w vm.max_map_count=262144
 docker-compose up
 ```
 ### Use infrastructure
@@ -28,6 +29,7 @@ docker-compose stop
 
 Start existing & stopped services/containers
 ```bash
+sudo sysctl -w vm.max_map_count=262144
 docker-compose start
 ```
 #### Down & up
@@ -38,6 +40,7 @@ docker-compose down
 
 Create services/containers and attach their existing volumes:
 ```bash
+sudo sysctl -w vm.max_map_count=262144
 docker-compose up
 ```
 
@@ -45,6 +48,7 @@ docker-compose up
 From inside Deployment/ use the following commands:  
 ```bash
 docker-compose down --volumes
+sudo sysctl -w vm.max_map_count=262144
 docker-compose up --build
 ```
 The first command stops and deletes associated containers, deletes associated volumes  
