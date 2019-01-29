@@ -1,1 +1,0 @@
-configuration file of hadoop: etc/hadoop/core-site.xml
