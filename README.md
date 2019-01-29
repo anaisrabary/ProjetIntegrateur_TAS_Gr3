@@ -2,10 +2,10 @@
 INSA Toulouse
 
 ## Summary
-* Prerequisites
-* Getting Started
-* Pipeline / architecture
-* Scenario
+* [Prerequisites](#Prerequisites)
+* [Getting started](#Getting-stared)
+* [Project structure](#Project-structure)
+* [Scenario](#Scenario)
 * [Deployment](Deployment)
 * [Bibliographic](biblio)
 
@@ -15,18 +15,17 @@ INSA Toulouse
 ```sh
 conda --version
 ```
-If not please install [Anaconda](https://www.anaconda.com/download/#linux) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
+1. If not please install [Anaconda](https://www.anaconda.com/download/#linux) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
 1. Make sure you have [**docker**](https://docs.docker.com/install/linux/docker-ce/ubuntu/) and [**docker-compose**](https://docs.docker.com/compose/install/) installed.
 
-## Getting Started
+## Getting started
 The project consists of 3 environment:
 * The Python environment
 * Docker for Minio and Elastic Search deployment.
 * The Spark in system environment
 
 ### Python environment
-
 1. Recreate the conda environment from `conda_env.yml`, :
 ```sh
 conda env create -f conda_env.yml
