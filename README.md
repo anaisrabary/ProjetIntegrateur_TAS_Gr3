@@ -162,6 +162,7 @@ b1.collect()
 ## Project stucture
 This section will explain how files / scripts are employed in project. The execution will be explained further in the next section.
 
+```
 **ProjetIntegrateur_TAS_Gr3**
 |
 |   # notebook
@@ -184,5 +185,6 @@ This section will explain how files / scripts are employed in project. The execu
 |-- **Keras_Model_trained**
 |   |-- ** *.h5** : contains saved weights for 2 models.
 |   |-- **modelTrained.json** : basic model architecture saved as json
- 
+```
+
 ## Scenario
