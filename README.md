@@ -184,5 +184,5 @@ This section will explain how files / scripts are employed in project. The execu
 |-- **Keras_Model_trained**
 |   |-- ** *.h5** : contains saved weights for 2 models.
 |   |-- **modelTrained.json** : basic model architecture saved as json
-
+ 
 ## Scenario
