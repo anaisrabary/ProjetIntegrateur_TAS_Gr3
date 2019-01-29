@@ -163,28 +163,28 @@ b1.collect()
 This section will explain how files / scripts are employed in project. The execution will be explained further in the next section.
 
 ```
-**ProjetIntegrateur_TAS_Gr3**
+ProjetIntegrateur_TAS_Gr3
 |
 |   # notebook
-|-- **Cut data.ipynb**  : divide the training dataset into 20 datas for demonstration.
-|-- **DataMining_TAS.ipynb**: deep Learning works. Explained in itself.
-|-- **search_image_ES.ipynb**: demonstrate how to formulate request from python to ES to get object url in Minio.
+|-- Cut data.ipynb  : divide the training dataset into 20 datas for demonstration.
+|-- DataMining_TAS.ipynb: deep Learning works. Explained in itself.
+|-- search_image_ES.ipynb: demonstrate how to formulate request from python to ES to get object url in Minio.
 |
 |   # scripts
-|-- **load_image_minio.py** : script to be executed in Spark to retrieve data from Minio.
-|-- **online_prediction.py** : online prediction using **DenseNet model**, to be submitted in Spark to simulate production environment.
-|-- **online_prediction_basic.py** :  online prediction using **basic model**, to be submitted in Spark to simulate production environment.
+|-- load_image_minio.py : script to be executed in Spark to retrieve data from Minio.
+|-- online_prediction.py : online prediction using **DenseNet model**, to be submitted in Spark to simulate production environment.
+|-- online_prediction_basic.py :  online prediction using **basic model**, to be submitted in Spark to simulate production environment.
 |
 |   # sub directory
-|-- **Deployment** : sub-project for infrastructure. Further detail is informed in that sub-project README.
+|-- Deployment : sub-project for infrastructure. Further detail is informed in that sub-project README.
 |   |-- ...
-|-- **img_notebook**: not a big deal
-|   |-- ** *.jpg**
-|-- **biblio** : research material
-|   |-- ** *.pdf**
-|-- **Keras_Model_trained**
-|   |-- ** *.h5** : contains saved weights for 2 models.
-|   |-- **modelTrained.json** : basic model architecture saved as json
+|-- img_notebook: not a big deal
+|   |-- *.jpg
+|-- biblio : research material
+|   |-- *.pdf
+|-- Keras_Model_trained
+|   |-- *.h5 : contains saved weights for 2 models.
+|   |-- modelTrained.json : basic model architecture saved as Json
 ```
 
 ## Scenario
