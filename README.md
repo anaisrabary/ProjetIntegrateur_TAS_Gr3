@@ -52,12 +52,9 @@ sudo sysctl -w vm.max_map_count=262144
 docker-compose up --build
 ```
 
-* Start the docker services
-```sh
-docker-compose start
-```
-
 * Wait for a while and check minio instance in your browser at `localhost:9001` and ElasticSearch at `localhost:9200`
+
+* For more details about the infrastructure deploy, please see [Deployment](Deployment)
 
 ### Spark Hadoop configuration:
 * Download Spark `spark-2.3.0-bin-without-hadoop` from [here](https://www.apache.org/dyn/closer.lua/spark/spark-2.3.0/spark-2.3.0-bin-without-hadoop.tgz) and extract the tar into the Spark directory (supposing `~/spark-2.3.0-bin-without-hadoop`).
@@ -159,7 +156,7 @@ val b1 = sc.textFile("s3a://train/0.npy")
 b1.collect()
 ```
 
-## Project stucture
+## Project structure
 This section will explain how files / scripts are employed in project. The execution will be explained further in the next section.
 
 ```
