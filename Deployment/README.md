@@ -4,7 +4,7 @@
 Following these instructions you should be able to:
 - deploy our infrastructure as docker services/containers
 - use our infrastructure
-- re-deploy our infrastructure [useful for collaborators]
+- re-deploy our infrastructure
 
 ### Prerequisites
 make sure you have docker and docker-compose installed  
@@ -44,11 +44,10 @@ sudo sysctl -w vm.max_map_count=262144
 docker-compose up
 ```
 
-### Re-deploy infrastructure (overwrite)  [useful for collaborators]
+### Re-deploy infrastructure (overwrite volumes and image)
 From inside Deployment/ use the following commands:  
 ```bash
 docker-compose down --volumes
-sudo sysctl -w vm.max_map_count=262144
 docker-compose up --build
 ```
 The first command stops and deletes associated containers, deletes associated volumes  
